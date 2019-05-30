@@ -1,14 +1,22 @@
-import { Calendar } from 'antd'
+import { Calendar, Badge } from 'antd'
 import React, { useState } from 'react'
 import './ReservationCalendar.css'
-import { ReservationList } from './ReservationList'
 import { ReservationModal } from './ReservationModal'
-import { getMonthData } from './utils'
+import { getMonthData, getDateData, getStatusText } from './utils'
 
-const dateCellRender = date => <ReservationList date={date} />
+const dateCellRender = date => (
+  <ul className="events">
+    {date &&
+      getDateData(date).map(({ status, time }) => (
+        <li key={time}>
+          <Badge status={status} text={`${time} ${getStatusText(status)}`} />
+        </li>
+      ))}
+  </ul>
+)
 
-const monthCellRender = value => {
-  const num = getMonthData(value)
+const monthCellRender = date => {
+  const num = getMonthData(date)
   return num ? (
     <div className="notes-month">
       <section>{num}</section>

@@ -11,12 +11,12 @@ const DATE_MAP = {
   ],
   17: [{ status: 'warning', time: '12:00' }, { status: 'warning', time: '13:00' }, { status: 'warning', time: '14:00' }]
 }
-export const getDateData = value => DATE_MAP[value.date()] || []
+export const getDateData = date => DATE_MAP[date && date.date()] || []
 
 const MONTH_MAP = {
   8: 1394
 }
-export const getMonthData = value => MONTH_MAP[value.month()]
+export const getMonthData = date => MONTH_MAP[date && date.month()]
 
 const STATUS_MAP = {
   success: 'Pickup Successful',
