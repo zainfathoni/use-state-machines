@@ -7,6 +7,8 @@ import { getDateData } from './utils'
 export const ReservationModal = ({ date, ...props }) => {
   const [index, setIndex] = useState(-1)
   const data = getDateData(date)
+  // TODO: Render details directly if data.length === 1
+  // FIXME: Avoid content flashing while closing the Modal
   return (
     <Modal
       centered
