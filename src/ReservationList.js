@@ -1,13 +1,13 @@
 import { Badge } from 'antd'
 import React from 'react'
-import { getDateData } from './utils'
+import { getDateData, getStatusText } from './utils'
 
 export const ReservationList = ({ date }) => (
   <ul className="events">
     {date &&
-      getDateData(date).map(item => (
-        <li key={item.content}>
-          <Badge status={item.type} text={item.content} />
+      getDateData(date).map(({ status, time }) => (
+        <li key={time}>
+          <Badge status={status} text={`${time} ${getStatusText(status)}`} />
         </li>
       ))}
   </ul>

@@ -1,24 +1,26 @@
 const DATE_MAP = {
-  8: [{ type: 'warning', content: 'This is warning event.' }, { type: 'success', content: 'This is usual event.' }],
-  10: [
-    { type: 'warning', content: 'This is warning event.' },
-    { type: 'success', content: 'This is usual event.' },
-    { type: 'error', content: 'This is error event.' }
-  ],
+  8: [{ status: 'success', time: '09:00' }, { status: 'error', time: '10:00' }],
+  10: [{ status: 'success', time: '09:00' }, { status: 'success', time: '10:00' }, { status: 'error', time: '11:00' }],
+  13: [{ status: 'success', time: '10:00' }],
   15: [
-    { type: 'warning', content: 'This is warning event' },
-    { type: 'success', content: 'This is very long usual event。。....' },
-    { type: 'error', content: 'This is error event 1.' },
-    { type: 'error', content: 'This is error event 2.' },
-    { type: 'error', content: 'This is error event 3.' },
-    { type: 'error', content: 'This is error event 4.' }
-  ]
+    { status: 'error', time: '07:00' },
+    { status: 'success', time: '09:00' },
+    { status: 'warning', time: '13:00' },
+    { status: 'warning', time: '14:00' },
+    { status: 'warning', time: '15:00' }
+  ],
+  17: [{ status: 'warning', time: '12:00' }, { status: 'warning', time: '13:00' }, { status: 'warning', time: '14:00' }]
 }
-
 export const getDateData = value => DATE_MAP[value.date()] || []
 
 const MONTH_MAP = {
   8: 1394
 }
-
 export const getMonthData = value => MONTH_MAP[value.month()]
+
+const STATUS_MAP = {
+  success: 'Pickup Successful',
+  error: 'Pickup Failed',
+  warning: 'Upcoming Pickup'
+}
+export const getStatusText = status => STATUS_MAP[status]
