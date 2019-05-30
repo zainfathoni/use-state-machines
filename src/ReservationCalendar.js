@@ -1,6 +1,7 @@
 import { Calendar, Badge } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import './ReservationCalendar.css'
+import { ReservationModal } from './ReservationModal'
 
 function getListData(value) {
   let listData
@@ -62,4 +63,18 @@ function monthCellRender(value) {
   ) : null
 }
 
-export const ReservationCalendar = () => <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+export const ReservationCalendar = () => {
+  const [date, setDate] = useState(null)
+  return (
+    <>
+      <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} onSelect={date => setDate(date)} />
+      <ReservationModal
+        visible={!!date}
+        onCancel={() => setDate(null)}
+        onOk={() => setDate(null)}
+        date={date}
+        listData={date && getListData(date)}
+      />
+    </>
+  )
+}
