@@ -5,7 +5,10 @@ import { ReservationList } from './ReservationList'
 export const ReservationModal = ({ date, ...props }) => {
   return (
     <Modal centered title={date && date.format('DD MMM YYYY')} {...props}>
-      <ReservationList date={date} onActionClick={index => console.log(index)} />
+      <ReservationList
+        date={date}
+        onActionClick={index => console.log(index)}
+      />
     </Modal>
   )
 }
