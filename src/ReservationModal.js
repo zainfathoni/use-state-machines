@@ -1,7 +1,8 @@
-import { Modal, Icon } from 'antd'
+import { Modal } from 'antd'
 import React, { useState } from 'react'
-import { ReservationList } from './ReservationList'
+import { Icon } from './Icon'
 import { ReservationCard } from './ReservationCard'
+import { ReservationList } from './ReservationList'
 import { getDateData } from './utils'
 
 export const ReservationModal = ({ date, ...props }) => {
@@ -11,24 +12,19 @@ export const ReservationModal = ({ date, ...props }) => {
   // FIXME: Avoid content flashing while closing the Modal
   return (
     <Modal
+      afterClose={() => setIndex(-1)}
       centered
       title={
         <>
           {index >= 0 && (
             <>
-              <Icon
-                type="left-circle"
-                theme="twoTone"
-                style={{ fontSize: 20 }}
-                onClick={() => setIndex(-1)}
-              />
+              <Icon type="left-circle" onClick={() => setIndex(-1)} />
               &nbsp;&nbsp;
             </>
           )}
           {date && date.format('DD MMM YYYY')}
         </>
       }
-      afterClose={() => setIndex(-1)}
       {...props}
     >
       {props.visible && index >= 0 ? (
