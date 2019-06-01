@@ -17,12 +17,12 @@ export const ReservationModal = ({
   // TODO: Render details directly if data.length === 1
   // FIXME: Avoid content flashing while closing the Modal
   const isDetailView = props.visible && index >= 0
-  const handleDelete = () => {
-    onDelete(date, index)
-  }
+  const handleDelete = () => onDelete(date, index)
+  const handleUpdate = data => onUpdate(date, index, data)
   const handleEdit = () => {
     setEditing(true)
   }
+
   return (
     <Modal
       afterClose={() => {
@@ -48,7 +48,7 @@ export const ReservationModal = ({
         </>
       }
       footer={
-        isDetailView && !editing
+        isDetailView && !editing && data[index].status === 'warning'
           ? [
               <Button key="back" onClick={handleDelete}>
                 Delete
@@ -64,10 +64,7 @@ export const ReservationModal = ({
       {isDetailView && !editing ? (
         <ReservationDetailView item={data[index]} />
       ) : isDetailView && editing ? (
-        <ReservationDetailEdit
-          item={data[index]}
-          onSubmit={data => onUpdate(date, index, data)}
-        />
+        <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
       ) : (
         <ReservationList data={data} onActionClick={index => setIndex(index)} />
       )}
