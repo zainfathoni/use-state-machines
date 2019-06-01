@@ -3,11 +3,9 @@ import React, { useState } from 'react'
 import { Icon } from './Icon'
 import { ReservationCard } from './ReservationCard'
 import { ReservationList } from './ReservationList'
-import { getDateData } from './utils'
 
-export const ReservationModal = ({ date, onOk, onDelete, ...props }) => {
+export const ReservationModal = ({ date, data, onOk, onDelete, ...props }) => {
   const [index, setIndex] = useState(-1)
-  const data = getDateData(date)
   // TODO: Render details directly if data.length === 1
   // FIXME: Avoid content flashing while closing the Modal
   const isDetailView = props.visible && index >= 0
@@ -50,7 +48,7 @@ export const ReservationModal = ({ date, onOk, onDelete, ...props }) => {
       {isDetailView ? (
         <ReservationCard item={data[index]} />
       ) : (
-        <ReservationList date={date} onActionClick={index => setIndex(index)} />
+        <ReservationList data={data} onActionClick={index => setIndex(index)} />
       )}
     </Modal>
   )

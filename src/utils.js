@@ -1,6 +1,7 @@
 import { gold, green, red } from '@ant-design/colors'
+import { useState } from 'react'
 
-export const DATE_MAP = {
+const DATE_MAP = {
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
     { status: 'error', time: '10:00', volume: '<3' }
@@ -25,8 +26,25 @@ export const DATE_MAP = {
   ]
 }
 
-export const MONTH_MAP = {
+const MONTH_MAP = {
   8: 1394
+}
+
+export const useDateMap = () => {
+  const [dateMap, setDateMap] = useState(DATE_MAP)
+  const [monthMap] = useState(MONTH_MAP)
+
+  const getDateData = date => dateMap[date && date.date()] || []
+  const getMonthData = date => monthMap[date && date.month()]
+  const deleteDateData = (date, index) => {
+    const dateKey = date.date()
+    setDateMap({
+      ...dateMap,
+      [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
+    })
+  }
+
+  return { getDateData, getMonthData, deleteDateData }
 }
 
 const STATUS_MAP = {

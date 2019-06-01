@@ -1,12 +1,12 @@
 import { List } from 'antd'
 import React from 'react'
 import { Icon, StatusIcon } from './Icon'
-import { getDateData, getStatusText } from './utils'
+import { getStatusText } from './utils'
 
-export const ReservationList = ({ date, onActionClick }) => (
+export const ReservationList = ({ data, onActionClick }) => (
   <List
-    dataSource={getDateData(date)}
-    renderItem={({ status, time, volume }, index) => (
+    dataSource={data}
+    renderItem={({ status, time }, index) => (
       <List.Item
         actions={[
           <Icon type="right-circle" onClick={() => onActionClick(index)} />

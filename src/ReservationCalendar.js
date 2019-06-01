@@ -2,22 +2,11 @@ import { Badge, Calendar, message } from 'antd'
 import React, { useState } from 'react'
 import './ReservationCalendar.css'
 import { ReservationModal } from './ReservationModal'
-import { getStatusText, DATE_MAP, MONTH_MAP } from './utils'
+import { getStatusText, useDateMap } from './utils'
 
 export const ReservationCalendar = () => {
   const [date, setDate] = useState(null)
-  const [dateMap, setDateMap] = useState(DATE_MAP)
-  const [monthMap] = useState(MONTH_MAP)
-
-  const getDateData = date => dateMap[date && date.date()] || []
-  const getMonthData = date => monthMap[date && date.month()]
-  const deleteDateData = (date, index) => {
-    const dateKey = date.date()
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
-    })
-  }
+  const { getDateData, getMonthData, deleteDateData } = useDateMap()
 
   const dateCellRender = date => (
     <ul className="events">
@@ -57,6 +46,7 @@ export const ReservationCalendar = () => {
         }}
         onOk={() => setDate(null)}
         date={date}
+        data={getDateData(date)}
       />
     </>
   )
