@@ -7,9 +7,9 @@ import { getStatusText, useDateMap } from './utils'
 export const ReservationCalendar = () => {
   const [date, setDate] = useState(null)
   const {
+    deleteDateData,
     getDateData,
     getMonthData,
-    deleteDateData,
     updateDateData
   } = useDateMap()
 

@@ -1,13 +1,14 @@
-import { Modal, Button } from 'antd'
+import { Modal } from 'antd'
 import React, { useState } from 'react'
-import { Icon } from './Icon'
+import { DeleteButton, EditButton } from './Button'
+import { LeftIcon } from './Icon'
+import { ReservationDetailEdit } from './ReservationDetailEdit'
 import { ReservationDetailView } from './ReservationDetailView'
 import { ReservationList } from './ReservationList'
-import { ReservationDetailEdit } from './ReservationDetailEdit'
 
 export const ReservationModal = ({
-  date,
   data,
+  date,
   onDelete,
   onUpdate,
   ...props
@@ -19,8 +20,10 @@ export const ReservationModal = ({
   const isDetailView = props.visible && index >= 0
   const handleDelete = () => onDelete(date, index)
   const handleUpdate = data => onUpdate(date, index, data)
-  const handleEdit = () => {
-    setEditing(true)
+  const handleEdit = () => setEditing(true)
+  const handleBack = () => {
+    setEditing(false)
+    setIndex(-1)
   }
 
   return (
@@ -30,34 +33,19 @@ export const ReservationModal = ({
         setIndex(-1)
       }}
       centered
-      title={
-        <>
-          {isDetailView && (
-            <>
-              <Icon
-                type="left-circle"
-                onClick={() => {
-                  setEditing(false)
-                  setIndex(-1)
-                }}
-              />
-              &nbsp;&nbsp;
-            </>
-          )}
-          {date && date.format('DD MMM YYYY')}
-        </>
-      }
       footer={
         isDetailView && !editing && data[index].status === 'warning'
           ? [
-              <Button key="back" onClick={handleDelete}>
-                Delete
-              </Button>,
-              <Button key="submit" type="primary" onClick={handleEdit}>
-                Edit
-              </Button>
+              <DeleteButton onClick={handleDelete} />,
+              <EditButton onClick={handleEdit} />
             ]
           : null
+      }
+      title={
+        <>
+          {isDetailView && <LeftIcon onClick={handleBack} />}
+          {date && date.format('DD MMM YYYY')}
+        </>
       }
       {...props}
     >
