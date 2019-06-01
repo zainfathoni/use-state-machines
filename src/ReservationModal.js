@@ -1,11 +1,19 @@
 import { Modal, Button } from 'antd'
 import React, { useState } from 'react'
 import { Icon } from './Icon'
-import { ReservationCard } from './ReservationCard'
+import { ReservationDetailView } from './ReservationDetailView'
 import { ReservationList } from './ReservationList'
+import { ReservationDetailEdit } from './ReservationDetailEdit'
 
-export const ReservationModal = ({ date, data, onOk, onDelete, ...props }) => {
+export const ReservationModal = ({
+  date,
+  data,
+  onDelete,
+  onUpdate,
+  ...props
+}) => {
   const [index, setIndex] = useState(-1)
+  const [editing, setEditing] = useState(false)
   // TODO: Render details directly if data.length === 1
   // FIXME: Avoid content flashing while closing the Modal
   const isDetailView = props.visible && index >= 0
@@ -13,18 +21,26 @@ export const ReservationModal = ({ date, data, onOk, onDelete, ...props }) => {
     onDelete(date, index)
   }
   const handleEdit = () => {
-    // TODO: Render Edit View
-    onOk()
+    setEditing(true)
   }
   return (
     <Modal
-      afterClose={() => setIndex(-1)}
+      afterClose={() => {
+        setEditing(false)
+        setIndex(-1)
+      }}
       centered
       title={
         <>
           {isDetailView && (
             <>
-              <Icon type="left-circle" onClick={() => setIndex(-1)} />
+              <Icon
+                type="left-circle"
+                onClick={() => {
+                  setEditing(false)
+                  setIndex(-1)
+                }}
+              />
               &nbsp;&nbsp;
             </>
           )}
@@ -32,7 +48,7 @@ export const ReservationModal = ({ date, data, onOk, onDelete, ...props }) => {
         </>
       }
       footer={
-        isDetailView
+        isDetailView && !editing
           ? [
               <Button key="back" onClick={handleDelete}>
                 Delete
@@ -45,8 +61,13 @@ export const ReservationModal = ({ date, data, onOk, onDelete, ...props }) => {
       }
       {...props}
     >
-      {isDetailView ? (
-        <ReservationCard item={data[index]} />
+      {isDetailView && !editing ? (
+        <ReservationDetailView item={data[index]} />
+      ) : isDetailView && editing ? (
+        <ReservationDetailEdit
+          item={data[index]}
+          onSubmit={data => onUpdate(date, index, data)}
+        />
       ) : (
         <ReservationList data={data} onActionClick={index => setIndex(index)} />
       )}

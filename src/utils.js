@@ -4,25 +4,24 @@ import { useState } from 'react'
 const DATE_MAP = {
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
-    { status: 'error', time: '10:00', volume: '<3' }
+    { status: 'error', time: '12:00', volume: '<3' }
   ],
   10: [
     { status: 'success', time: '09:00', volume: '<3' },
-    { status: 'success', time: '10:00', volume: '3-10' },
-    { status: 'error', time: '11:00', volume: '11-50' }
+    { status: 'success', time: '12:00', volume: '3-10' },
+    { status: 'error', time: '15:00', volume: '11-50' }
   ],
-  13: [{ status: 'success', time: '10:00', volume: '>50' }],
+  13: [{ status: 'success', time: '15:00', volume: '>50' }],
   15: [
-    { status: 'error', time: '07:00', volume: '<3' },
-    { status: 'success', time: '09:00', volume: '3-10' },
-    { status: 'warning', time: '13:00', volume: '11-50' },
-    { status: 'warning', time: '14:00', volume: '11-50' },
-    { status: 'warning', time: '15:00', volume: '>50' }
+    { status: 'error', time: '09:00', volume: '<3' },
+    { status: 'success', time: '12:00', volume: '3-10' },
+    { status: 'warning', time: '15:00', volume: '11-50' },
+    { status: 'warning', time: '18:00', volume: '>50' }
   ],
   17: [
     { status: 'warning', time: '12:00', volume: '<3' },
-    { status: 'warning', time: '13:00', volume: '11-50' },
-    { status: 'warning', time: '14:00', volume: '>50' }
+    { status: 'warning', time: '15:00', volume: '11-50' },
+    { status: 'warning', time: '18:00', volume: '>50' }
   ]
 }
 
@@ -43,8 +42,19 @@ export const useDateMap = () => {
       [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
     })
   }
+  const updateDateData = (date, index, data) => {
+    const dateKey = date.date()
+    setDateMap({
+      ...dateMap,
+      [dateKey]: [
+        ...dateMap[dateKey].map((value, i) =>
+          i !== index ? value : { ...value, ...data }
+        )
+      ]
+    })
+  }
 
-  return { getDateData, getMonthData, deleteDateData }
+  return { getDateData, getMonthData, deleteDateData, updateDateData }
 }
 
 const STATUS_MAP = {

@@ -6,7 +6,12 @@ import { getStatusText, useDateMap } from './utils'
 
 export const ReservationCalendar = () => {
   const [date, setDate] = useState(null)
-  const { getDateData, getMonthData, deleteDateData } = useDateMap()
+  const {
+    getDateData,
+    getMonthData,
+    deleteDateData,
+    updateDateData
+  } = useDateMap()
 
   const dateCellRender = date => (
     <ul className="events">
@@ -44,7 +49,11 @@ export const ReservationCalendar = () => {
           message.success('Successfully Deleted!')
           setDate(null)
         }}
-        onOk={() => setDate(null)}
+        onUpdate={(date, index, data) => {
+          updateDateData(date, index, data)
+          message.success('Successfully Updated!')
+          setDate(null)
+        }}
         date={date}
         data={getDateData(date)}
       />

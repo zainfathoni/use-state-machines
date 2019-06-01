@@ -3,7 +3,7 @@ import React from 'react'
 import { StatusIcon } from './Icon'
 import { getStatusText } from './utils'
 
-export const ReservationCard = ({ item: { status, time, volume } }) => (
+export const ReservationDetailView = ({ item: { status, time, volume } }) => (
   <Descriptions
     title={
       <>
