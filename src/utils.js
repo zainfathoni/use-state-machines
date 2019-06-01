@@ -1,6 +1,6 @@
 import { gold, green, red } from '@ant-design/colors'
 
-const DATE_MAP = {
+export const DATE_MAP = {
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
     { status: 'error', time: '10:00', volume: '<3' }
@@ -24,12 +24,10 @@ const DATE_MAP = {
     { status: 'warning', time: '14:00', volume: '>50' }
   ]
 }
-export const getDateData = date => DATE_MAP[date && date.date()] || []
 
-const MONTH_MAP = {
+export const MONTH_MAP = {
   8: 1394
 }
-export const getMonthData = date => MONTH_MAP[date && date.month()]
 
 const STATUS_MAP = {
   error: 'Pickup Failed',
