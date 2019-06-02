@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DeleteButton, EditButton } from './Button'
 import { LeftIcon } from './Icon'
 import { ReservationDetailEdit } from './ReservationDetailEdit'
@@ -15,7 +15,14 @@ export const ReservationModal = ({
 }) => {
   const [index, setIndex] = useState(-1)
   const [editing, setEditing] = useState(false)
-  // TODO: Render details directly if data.length === 1
+
+  // Render details directly if data.length === 1
+  useEffect(() => {
+    if (data.length === 1) {
+      setIndex(0)
+    }
+  }, [data.length])
+
   // FIXME: Avoid content flashing while closing the Modal
   const isDetailView = props.visible && index >= 0
   const handleDelete = () => onDelete(date, index)
