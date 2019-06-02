@@ -7,6 +7,7 @@ import { getStatusText, useDateMap } from './utils'
 export const ReservationCalendar = () => {
   const [date, setDate] = useState(null)
   const {
+    createDateData,
     deleteDateData,
     getDateData,
     getMonthData,
@@ -52,6 +53,11 @@ export const ReservationCalendar = () => {
         onUpdate={(date, index, data) => {
           updateDateData(date, index, data)
           message.success('Successfully Updated!')
+          setDate(null)
+        }}
+        onCreate={(date, data) => {
+          createDateData(date, data)
+          message.success('Successfully Created!')
           setDate(null)
         }}
         date={date}

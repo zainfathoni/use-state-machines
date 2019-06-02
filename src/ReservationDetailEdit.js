@@ -3,7 +3,7 @@ import React from 'react'
 
 const ReservationDetailEdit = ({
   form: { getFieldDecorator, validateFields },
-  item: { time, volume },
+  item: { time, volume } = {},
   onSubmit
 }) => {
   const handleSubmit = e => {

@@ -53,8 +53,22 @@ export const useDateMap = () => {
       ]
     })
   }
+  const createDateData = (date, data) => {
+    const dateKey = date.date()
+    console.log(dateMap[dateKey])
+    setDateMap({
+      ...dateMap,
+      [dateKey]: [...(dateMap[dateKey] || []), { status: 'warning', ...data }]
+    })
+  }
 
-  return { getDateData, getMonthData, deleteDateData, updateDateData }
+  return {
+    getDateData,
+    getMonthData,
+    createDateData,
+    deleteDateData,
+    updateDateData
+  }
 }
 
 const STATUS_MAP = {
