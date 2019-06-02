@@ -1,38 +1,75 @@
-import { Modal, Icon } from 'antd'
-import React, { useState } from 'react'
+import { Modal } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { DeleteButton, EditButton } from './Button'
+import { LeftIcon } from './Icon'
+import { ReservationDetailEdit } from './ReservationDetailEdit'
+import { ReservationDetailView } from './ReservationDetailView'
 import { ReservationList } from './ReservationList'
-import { ReservationCard } from './ReservationCard'
-import { getDateData } from './utils'
 
-export const ReservationModal = ({ date, ...props }) => {
+export const ReservationModal = ({
+  data,
+  date,
+  onCreate,
+  onDelete,
+  onUpdate,
+  ...props
+}) => {
   const [index, setIndex] = useState(-1)
-  const data = getDateData(date)
+  const [editing, setEditing] = useState(false)
+
+  // Render details directly if data.length === 1
+  useEffect(() => {
+    if (data.length === 0) {
+      // FIXME: Create doesn't work intermittently
+      // FIXME: Old editing state is not cleared properly
+      setEditing(true)
+    } else if (data.length === 1) {
+      setIndex(0)
+    }
+  }, [data.length, index, editing])
+
+  // FIXME: Avoid content flashing while closing the Modal
+  const isDetailView = props.visible && index >= 0
+  const handleDelete = () => onDelete(date, index)
+  const handleCreate = data => onCreate(date, data)
+  const handleUpdate = data => onUpdate(date, index, data)
+  const handleEdit = () => setEditing(true)
+  const handleBack = () => {
+    setEditing(false)
+    setIndex(-1)
+  }
+
   return (
     <Modal
+      afterClose={() => {
+        setEditing(false)
+        setIndex(-1)
+      }}
       centered
+      footer={
+        isDetailView && !editing && data[index].status === 'warning'
+          ? [
+              <DeleteButton key="delete" onClick={handleDelete} />,
+              <EditButton key="edit" onClick={handleEdit} />
+            ]
+          : null
+      }
       title={
         <>
-          {index >= 0 && (
-            <>
-              <Icon
-                type="left-circle"
-                theme="twoTone"
-                style={{ fontSize: 20 }}
-                onClick={() => setIndex(-1)}
-              />
-              &nbsp;&nbsp;
-            </>
-          )}
+          {isDetailView && <LeftIcon onClick={handleBack} />}
           {date && date.format('DD MMM YYYY')}
         </>
       }
-      afterClose={() => setIndex(-1)}
       {...props}
     >
-      {props.visible && index >= 0 ? (
-        <ReservationCard rsvn={data[index]} />
+      {isDetailView && !editing ? (
+        <ReservationDetailView item={data[index]} />
+      ) : isDetailView && editing ? (
+        <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
+      ) : !isDetailView && editing && data.length === 0 ? (
+        <ReservationDetailEdit onSubmit={handleCreate} />
       ) : (
-        <ReservationList date={date} onActionClick={index => setIndex(index)} />
+        <ReservationList data={data} onActionClick={index => setIndex(index)} />
       )}
     </Modal>
   )

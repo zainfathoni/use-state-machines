@@ -1,23 +1,15 @@
-import { Badge, Icon, List } from 'antd'
+import { List } from 'antd'
 import React from 'react'
-import { getDateData, getStatusText } from './utils'
+import { StatusIcon, RightIcon } from './Icon'
+import { getStatusText } from './utils'
 
-export const ReservationList = ({ date, onActionClick }) => (
+export const ReservationList = ({ data, onActionClick }) => (
   <List
-    dataSource={getDateData(date)}
+    dataSource={data}
     renderItem={({ status, time }, index) => (
-      <List.Item
-        actions={[
-          <Icon
-            type="right-circle"
-            theme="twoTone"
-            style={{ fontSize: 20 }}
-            onClick={() => onActionClick(index)}
-          />
-        ]}
-      >
+      <List.Item actions={[<RightIcon onClick={() => onActionClick(index)} />]}>
         <List.Item.Meta
-          avatar={<Badge status={status} />}
+          avatar={<StatusIcon status={status} />}
           title={getStatusText(status)}
           description={time}
         />
