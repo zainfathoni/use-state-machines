@@ -8,7 +8,7 @@ export const reservationMachine = Machine(
         id: 'invisible',
         on: {
           CLICK_DATE: [
-            { cond: 'empty', target: 'visible.edit' },
+            { cond: 'empty', target: 'visible.new' },
             { cond: 'single', target: 'visible.view' },
             { target: 'visible' }
           ]
@@ -20,7 +20,8 @@ export const reservationMachine = Machine(
         states: {
           list: { on: { VIEW: 'view' } },
           view: { on: { EDIT: 'edit' } },
-          edit: { on: { SUBMIT: '#invisible' } } // use state id to refer parent state
+          new: { on: { SUBMIT: '#invisible' } },
+          edit: { on: { SUBMIT: '#invisible' } }
         }
       }
     }

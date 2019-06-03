@@ -10,13 +10,15 @@ describe('reservationMachine', () => {
   it.each([
     ['invisible', 'CLICK_DATE', ['', ''], { visible: 'list' }],
     ['invisible', 'CLICK_DATE', [''], { visible: 'view' }],
-    ['invisible', 'CLICK_DATE', [], { visible: 'edit' }],
+    ['invisible', 'CLICK_DATE', [], { visible: 'new' }],
     [{ visible: 'list' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'list' }, 'VIEW', null, { visible: 'view' }],
     [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'view' }, 'EDIT', null, { visible: 'edit' }],
     [{ visible: 'edit' }, 'CLOSE', null, 'invisible'],
-    [{ visible: 'edit' }, 'SUBMIT', null, 'invisible']
+    [{ visible: 'edit' }, 'SUBMIT', null, 'invisible'],
+    [{ visible: 'new' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'new' }, 'SUBMIT', null, 'invisible']
   ])(`%j on %s (%j) -> %j`, (initialState, event, eventArgs, expectedState) => {
     expect(
       reservationMachine.transition(initialState, event, eventArgs).value
