@@ -3,7 +3,16 @@ import { Machine } from 'xstate'
 export const reservationMachine = Machine({
   initial: 'invisible',
   states: {
-    invisible: { id: 'invisible', on: { CLICK_DATE: 'visible' } },
+    invisible: {
+      id: 'invisible',
+      on: {
+        CLICK_DATE: [
+          { cond: data => data && data.length === 0, target: 'visible.edit' },
+          { cond: data => data && data.length === 1, target: 'visible.view' },
+          { target: 'visible' }
+        ]
+      }
+    },
     visible: {
       on: { CLOSE: 'invisible' },
       initial: 'list',

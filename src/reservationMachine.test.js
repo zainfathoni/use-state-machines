@@ -8,17 +8,19 @@ describe('reservationMachine', () => {
   })
 
   it.each([
-    ['invisible', 'CLICK_DATE', { visible: 'list' }],
-    [{ visible: 'list' }, 'CLOSE', 'invisible'],
-    [{ visible: 'list' }, 'VIEW', { visible: 'view' }],
-    [{ visible: 'view' }, 'CLOSE', 'invisible'],
-    [{ visible: 'view' }, 'EDIT', { visible: 'edit' }],
-    [{ visible: 'edit' }, 'CLOSE', 'invisible'],
-    [{ visible: 'edit' }, 'SUBMIT', 'invisible']
-  ])(`%j on %s -> %j`, (initialState, event, expectedState) => {
-    expect(reservationMachine.transition(initialState, event).value).toEqual(
-      expectedState
-    )
+    ['invisible', 'CLICK_DATE', ['', ''], { visible: 'list' }],
+    ['invisible', 'CLICK_DATE', [''], { visible: 'view' }],
+    ['invisible', 'CLICK_DATE', [], { visible: 'edit' }],
+    [{ visible: 'list' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'list' }, 'VIEW', null, { visible: 'view' }],
+    [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'view' }, 'EDIT', null, { visible: 'edit' }],
+    [{ visible: 'edit' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'edit' }, 'SUBMIT', null, 'invisible']
+  ])(`%j on %s (%j) -> %j`, (initialState, event, eventArgs, expectedState) => {
+    expect(
+      reservationMachine.transition(initialState, event, eventArgs).value
+    ).toEqual(expectedState)
   })
 })
 
