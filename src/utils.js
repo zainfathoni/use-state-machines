@@ -1,5 +1,7 @@
 import { gold, green, red } from '@ant-design/colors'
-import { useState } from 'react'
+import { Badge, message } from 'antd'
+import React, { useState } from 'react'
+import './ReservationCalendar.css'
 
 const DATE_MAP = {
   8: [
@@ -25,49 +27,43 @@ const DATE_MAP = {
   ]
 }
 
-const MONTH_MAP = {
-  8: 1394
-}
-
-export const useDateMap = () => {
+export const useDateMap = actionCallback => {
   const [dateMap, setDateMap] = useState(DATE_MAP)
-  const [monthMap] = useState(MONTH_MAP)
-
-  const getDateData = date => dateMap[date && date.date()] || []
-  const getMonthData = date => monthMap[date && date.month()]
-  const deleteDateData = (date, index) => {
-    const dateKey = date.date()
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
-    })
-  }
-  const updateDateData = (date, index, data) => {
-    const dateKey = date.date()
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [
-        ...dateMap[dateKey].map((value, i) =>
-          i !== index ? value : { ...value, ...data }
-        )
-      ]
-    })
-  }
-  const createDateData = (date, data) => {
-    const dateKey = date.date()
-    console.log(dateMap[dateKey])
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [...(dateMap[dateKey] || []), { status: 'warning', ...data }]
-    })
-  }
 
   return {
-    getDateData,
-    getMonthData,
-    createDateData,
-    deleteDateData,
-    updateDateData
+    createData: (date, data) => {
+      const dateKey = date.date()
+      console.log(dateMap[dateKey])
+      setDateMap({
+        ...dateMap,
+        [dateKey]: [...(dateMap[dateKey] || []), { status: 'warning', ...data }]
+      })
+      message.success('Successfully Created!')
+      actionCallback()
+    },
+    deleteData: (date, index) => {
+      const dateKey = date.date()
+      setDateMap({
+        ...dateMap,
+        [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
+      })
+      message.success('Successfully Deleted!')
+      actionCallback()
+    },
+    getData: date => dateMap[date && date.date()] || [],
+    updateData: (date, index, data) => {
+      const dateKey = date.date()
+      setDateMap({
+        ...dateMap,
+        [dateKey]: [
+          ...dateMap[dateKey].map((value, i) =>
+            i !== index ? value : { ...value, ...data }
+          )
+        ]
+      })
+      message.success('Successfully Updated!')
+      actionCallback()
+    }
   }
 }
 
@@ -91,3 +87,13 @@ const ICON_MAP = {
   warning: 'clock-circle'
 }
 export const getStatusIcon = status => ICON_MAP[status]
+
+export const dataCellRender = data => (
+  <ul className="events">
+    {data.map(({ status, time }) => (
+      <li key={time}>
+        <Badge status={status} text={`${time} ${getStatusText(status)}`} />
+      </li>
+    ))}
+  </ul>
+)
