@@ -32,7 +32,6 @@ export const useDateMap = actionCallback => {
 
   return {
     createData: (date, data) => {
-      console.log(dateMap[date])
       setDateMap({
         ...dateMap,
         [date]: [...(dateMap[date] || []), { status: 'warning', ...data }]
