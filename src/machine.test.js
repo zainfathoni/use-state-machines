@@ -5,29 +5,29 @@ describe('toggleMachine', () => {
   let toggleService, currentState
 
   beforeEach(() => {
-    currentState = toggleMachine.initialState.value
+    currentState = toggleMachine.initialState
     toggleService = interpret(toggleMachine)
       .onTransition(state => {
         if (state.changed) {
-          currentState = state.value
+          currentState = state
         }
       })
       .start()
   })
 
   it('initial state', () => {
-    expect(currentState).toEqual('inactive')
+    expect(currentState.matches('inactive')).toBe(true)
   })
 
   it('TOGGLE once', () => {
     toggleService.send('TOGGLE')
-    expect(currentState).toEqual('active')
+    expect(currentState.matches('active')).toBe(true)
   })
 
   it('TOGGLE twice', () => {
     toggleService.send('TOGGLE')
     toggleService.send('TOGGLE')
-    expect(currentState).toEqual('inactive')
+    expect(currentState.matches('inactive')).toBe(true)
   })
 })
 
@@ -35,27 +35,27 @@ describe('reservationMachine', () => {
   let reservationService, currentState
 
   beforeEach(() => {
-    currentState = reservationMachine.initialState.value
+    currentState = reservationMachine.initialState
     reservationService = interpret(reservationMachine)
       .onTransition(state => {
         if (state.changed) {
-          currentState = state.value
+          currentState = state
         }
       })
       .start()
   })
 
   it('initial state', () => {
-    expect(currentState).toEqual('invisible')
+    expect(currentState.matches('invisible')).toBe(true)
   })
 
   it('CLICK_DATE', () => {
     reservationService.send('CLICK_DATE')
-    expect(currentState).toEqual('visible')
+    expect(currentState.matches('visible')).toBe(true)
   })
 
   it('CLOSE_DATE', () => {
     reservationService.send('CLICK_DATE')
-    expect(currentState).toEqual('visible')
+    expect(currentState.matches('visible')).toBe(true)
   })
 })
