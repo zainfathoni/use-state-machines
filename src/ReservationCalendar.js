@@ -10,6 +10,7 @@ export const ReservationCalendar = () => {
     date,
     disabledDate,
     formattedDate,
+    getData,
     onCancel,
     onCreate,
     onDelete,
@@ -19,10 +20,13 @@ export const ReservationCalendar = () => {
   } = useDateMap()
 
   const [state, setState] = useState(reservationMachine.initialState)
+  console.log(state.value)
 
   const handleClickDate = date => {
     setMomentDate(date)
-    setState(reservationMachine.transition(state, 'CLICK_DATE'))
+    setState(
+      reservationMachine.transition(state, 'CLICK_DATE', getData(date.date()))
+    )
   }
 
   const handleCancel = () => {
@@ -46,7 +50,7 @@ export const ReservationCalendar = () => {
         onCreate={onCreate}
         onDelete={onDelete}
         onUpdate={onUpdate}
-        stateValue={state.value.visible}
+        stateValue={!!state.value.visible}
       />
     </main>
   )
