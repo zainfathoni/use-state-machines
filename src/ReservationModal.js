@@ -19,17 +19,14 @@ export const ReservationModal = ({
 
   // Render details directly if data.length === 1
   useEffect(() => {
-    if (data.length === 0) {
-      // FIXME: Create doesn't work intermittently
-      // FIXME: Old editing state is not cleared properly
-      setEditing(true)
-    } else if (data.length === 1) {
+    if (data.length === 1) {
       setIndex(0)
     }
   }, [data.length, index, editing])
 
   // FIXME: Avoid content flashing while closing the Modal
   const isDetailView = props.visible && index >= 0
+  const isEmpty = props.visible && data.length === 0
   const handleDelete = () => onDelete(date, index)
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
@@ -66,7 +63,7 @@ export const ReservationModal = ({
         <ReservationDetailView item={data[index]} />
       ) : isDetailView && editing ? (
         <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
-      ) : !isDetailView && editing && data.length === 0 ? (
+      ) : isEmpty ? (
         <ReservationDetailEdit onSubmit={handleCreate} />
       ) : (
         <ReservationList data={data} onActionClick={index => setIndex(index)} />
