@@ -1,9 +1,14 @@
 import { gold, green, red } from '@ant-design/colors'
 import { Badge, message } from 'antd'
 import React, { useState } from 'react'
+import moment from 'moment'
 import './ReservationCalendar.css'
 
 export const DATE_MAP = {
+  3: [
+    { status: 'success', time: '09:00', volume: '<3' },
+    { status: 'error', time: '12:00', volume: '<3' }
+  ],
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
     { status: 'error', time: '12:00', volume: '<3' }
@@ -37,6 +42,9 @@ export const useDateMap = (MAP = DATE_MAP) => {
   return {
     data: getData(date),
     date,
+    disabledDate: date =>
+      moment(date).isBefore(moment().add(-1, 'days')) &&
+      !getData(date.date()).length,
     formattedDate: momentDate && momentDate.format('DD MMM YYYY'),
     getData,
     setMomentDate,

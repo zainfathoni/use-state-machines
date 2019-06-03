@@ -26,8 +26,9 @@ export const ReservationModal = ({
   }, [data.length, index, editing])
 
   // FIXME: Avoid content flashing while closing the Modal
-  const isDetailView = props.visible && index >= 0
-  const isEmpty = props.visible && data.length === 0
+  const visible = !!date
+  const isDetailView = visible && index >= 0
+  const isEmpty = visible && data.length === 0
   const handleDelete = () => onDelete(date, index)
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
@@ -58,6 +59,7 @@ export const ReservationModal = ({
           {formattedDate}
         </>
       }
+      visible={visible}
       {...props}
     >
       {isDetailView && !editing ? (

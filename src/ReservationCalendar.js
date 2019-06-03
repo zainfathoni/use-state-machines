@@ -7,6 +7,7 @@ export const ReservationCalendar = () => {
   const {
     data,
     date,
+    disabledDate,
     formattedDate,
     onCancel,
     onCreate,
@@ -18,7 +19,11 @@ export const ReservationCalendar = () => {
 
   return (
     <main className="container">
-      <Calendar dateCellRender={renderDate} onSelect={setMomentDate} />
+      <Calendar
+        dateCellRender={renderDate}
+        disabledDate={disabledDate}
+        onSelect={setMomentDate}
+      />
       <ReservationModal
         data={data}
         date={date}
