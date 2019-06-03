@@ -1,7 +1,14 @@
 import { gold, green, red } from '@ant-design/colors'
-import { useState } from 'react'
+import { Badge, message } from 'antd'
+import React, { useState } from 'react'
+import moment from 'moment'
+import './ReservationCalendar.css'
 
-const DATE_MAP = {
+export const DATE_MAP = {
+  3: [
+    { status: 'success', time: '09:00', volume: '<3' },
+    { status: 'error', time: '12:00', volume: '<3' }
+  ],
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
     { status: 'error', time: '12:00', volume: '<3' }
@@ -25,49 +32,52 @@ const DATE_MAP = {
   ]
 }
 
-const MONTH_MAP = {
-  8: 1394
-}
+export const useDateMap = (MAP = DATE_MAP) => {
+  const [dateMap, setDateMap] = useState(MAP)
+  const [momentDate, setMomentDate] = useState(null)
 
-export const useDateMap = () => {
-  const [dateMap, setDateMap] = useState(DATE_MAP)
-  const [monthMap] = useState(MONTH_MAP)
-
-  const getDateData = date => dateMap[date && date.date()] || []
-  const getMonthData = date => monthMap[date && date.month()]
-  const deleteDateData = (date, index) => {
-    const dateKey = date.date()
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
-    })
-  }
-  const updateDateData = (date, index, data) => {
-    const dateKey = date.date()
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [
-        ...dateMap[dateKey].map((value, i) =>
-          i !== index ? value : { ...value, ...data }
-        )
-      ]
-    })
-  }
-  const createDateData = (date, data) => {
-    const dateKey = date.date()
-    console.log(dateMap[dateKey])
-    setDateMap({
-      ...dateMap,
-      [dateKey]: [...(dateMap[dateKey] || []), { status: 'warning', ...data }]
-    })
-  }
+  const date = momentDate && momentDate.date()
+  const getData = date => dateMap[date] || []
 
   return {
-    getDateData,
-    getMonthData,
-    createDateData,
-    deleteDateData,
-    updateDateData
+    data: getData(date),
+    date,
+    disabledDate: date =>
+      moment(date).isBefore(moment().add(-1, 'days')) &&
+      !getData(date.date()).length,
+    formattedDate: momentDate && momentDate.format('DD MMM YYYY'),
+    getData,
+    setMomentDate,
+    onCancel: () => setMomentDate(null),
+    onCreate: (date, data) => {
+      setDateMap({
+        ...dateMap,
+        [date]: [...(dateMap[date] || []), { status: 'warning', ...data }]
+      })
+      message.success('Successfully Created!')
+      setMomentDate(null)
+    },
+    onDelete: (date, index) => {
+      setDateMap({
+        ...dateMap,
+        [date]: [...dateMap[date].filter((_, i) => i !== index)]
+      })
+      message.success('Successfully Deleted!')
+      setMomentDate(null)
+    },
+    onUpdate: (date, index, data) => {
+      setDateMap({
+        ...dateMap,
+        [date]: [
+          ...dateMap[date].map((value, i) =>
+            i !== index ? value : { ...value, ...data }
+          )
+        ]
+      })
+      message.success('Successfully Updated!')
+      setMomentDate(null)
+    },
+    renderDate: mDate => mDate && dataCellRender(getData(mDate.date()))
   }
 }
 
@@ -91,3 +101,13 @@ const ICON_MAP = {
   warning: 'clock-circle'
 }
 export const getStatusIcon = status => ICON_MAP[status]
+
+export const dataCellRender = data => (
+  <ul className="events">
+    {data.map(({ status, time }) => (
+      <li key={time}>
+        <Badge status={status} text={`${time} ${getStatusText(status)}`} />
+      </li>
+    ))}
+  </ul>
+)

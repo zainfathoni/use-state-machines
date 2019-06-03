@@ -1,68 +1,38 @@
-import { Badge, Calendar, message } from 'antd'
-import React, { useState } from 'react'
-import './ReservationCalendar.css'
+import { Calendar } from 'antd'
+import React from 'react'
 import { ReservationModal } from './ReservationModal'
-import { getStatusText, useDateMap } from './utils'
+import { useDateMap } from './utils'
 
 export const ReservationCalendar = () => {
-  const [date, setDate] = useState(null)
   const {
-    createDateData,
-    deleteDateData,
-    getDateData,
-    getMonthData,
-    updateDateData
+    data,
+    date,
+    disabledDate,
+    formattedDate,
+    onCancel,
+    onCreate,
+    onDelete,
+    onUpdate,
+    renderDate,
+    setMomentDate
   } = useDateMap()
 
-  const dateCellRender = date => (
-    <ul className="events">
-      {date &&
-        getDateData(date).map(({ status, time }) => (
-          <li key={time}>
-            <Badge status={status} text={`${time} ${getStatusText(status)}`} />
-          </li>
-        ))}
-    </ul>
-  )
-
-  const monthCellRender = date => {
-    const num = getMonthData(date)
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Pickups Completed</span>
-      </div>
-    ) : null
-  }
-
   return (
-    <>
+    <main className="container">
       <Calendar
-        dateCellRender={dateCellRender}
-        monthCellRender={monthCellRender}
-        onSelect={date => setDate(date)}
+        dateCellRender={renderDate}
+        disabledDate={disabledDate}
+        onSelect={setMomentDate}
       />
       <ReservationModal
-        visible={!!date}
-        onCancel={() => setDate(null)}
-        onDelete={(date, index) => {
-          deleteDateData(date, index)
-          message.success('Successfully Deleted!')
-          setDate(null)
-        }}
-        onUpdate={(date, index, data) => {
-          updateDateData(date, index, data)
-          message.success('Successfully Updated!')
-          setDate(null)
-        }}
-        onCreate={(date, data) => {
-          createDateData(date, data)
-          message.success('Successfully Created!')
-          setDate(null)
-        }}
+        data={data}
         date={date}
-        data={getDateData(date)}
+        formattedDate={formattedDate}
+        onCancel={onCancel}
+        onCreate={onCreate}
+        onDelete={onDelete}
+        onUpdate={onUpdate}
       />
-    </>
+    </main>
   )
 }
