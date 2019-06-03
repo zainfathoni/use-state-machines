@@ -54,8 +54,9 @@ describe('reservationMachine', () => {
     expect(currentState.matches('visible')).toBe(true)
   })
 
-  it('CLOSE_DATE', () => {
+  it('CLOSE', () => {
     reservationService.send('CLICK_DATE')
-    expect(currentState.matches('visible')).toBe(true)
+    reservationService.send('CLOSE')
+    expect(currentState.matches('invisible')).toBe(true)
   })
 })
