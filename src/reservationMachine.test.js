@@ -1,37 +1,28 @@
 import { interpret } from 'xstate'
-import { toggleMachine, reservationMachine } from './machine'
+import { reservationMachine } from './reservationMachine'
 
-describe('toggleMachine', () => {
-  let toggleService, currentState
-
-  beforeEach(() => {
-    currentState = toggleMachine.initialState
-    toggleService = interpret(toggleMachine)
-      .onTransition(state => {
-        if (state.changed) {
-          currentState = state
-        }
-      })
-      .start()
-  })
-
+describe('reservationMachine', () => {
   it('initial state', () => {
-    expect(currentState.matches('inactive')).toBe(true)
+    // Assert using .matches()
+    expect(reservationMachine.initialState.matches('invisible')).toBe(true)
+    // Assert value directly
+    expect(reservationMachine.initialState.value).toBe('invisible')
   })
 
-  it('TOGGLE once', () => {
-    toggleService.send('TOGGLE')
-    expect(currentState.matches('active')).toBe(true)
+  it('invisible on CLICK_DATE -> visible', () => {
+    expect(reservationMachine.transition('invisible', 'CLICK_DATE').value).toBe(
+      'visible'
+    )
   })
 
-  it('TOGGLE twice', () => {
-    toggleService.send('TOGGLE')
-    toggleService.send('TOGGLE')
-    expect(currentState.matches('inactive')).toBe(true)
+  it('visible on CLOSE -> invisible', () => {
+    expect(reservationMachine.transition('visible', 'CLOSE').value).toBe(
+      'invisible'
+    )
   })
 })
 
-describe('reservationMachine', () => {
+describe('Interpreted reservationMachine', () => {
   let reservationService, currentState
 
   beforeEach(() => {
