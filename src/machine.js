@@ -7,3 +7,19 @@ export const toggleMachine = Machine({
     active: { on: { TOGGLE: 'inactive' } }
   }
 })
+
+export const reservationMachine = Machine({
+  initial: 'invisible',
+  states: {
+    invisible: {
+      on: {
+        CLICK_DATE: 'visible'
+      }
+    },
+    visible: {
+      on: {
+        CLOSE: 'invisible'
+      }
+    }
+  }
+})
