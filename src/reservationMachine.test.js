@@ -8,17 +8,17 @@ describe('reservationMachine', () => {
   })
 
   it.each([
-    ['invisible', 'CLICK_DATE', 'visible.list'],
-    ['visible.list', 'CLOSE', 'invisible'],
-    ['visible.list', 'VIEW', 'visible.view'],
-    ['visible.view', 'CLOSE', 'invisible'],
-    ['visible.view', 'EDIT', 'visible.edit'],
-    ['visible.edit', 'CLOSE', 'invisible'],
-    ['visible.edit', 'SUBMIT', 'invisible']
-  ])('%s on %s -> %s', (initialState, event, expectedState) => {
-    expect(
-      reservationMachine.transition(initialState, event).matches(expectedState)
-    ).toBe(true)
+    ['invisible', 'CLICK_DATE', { visible: 'list' }],
+    [{ visible: 'list' }, 'CLOSE', 'invisible'],
+    [{ visible: 'list' }, 'VIEW', { visible: 'view' }],
+    [{ visible: 'view' }, 'CLOSE', 'invisible'],
+    [{ visible: 'view' }, 'EDIT', { visible: 'edit' }],
+    [{ visible: 'edit' }, 'CLOSE', 'invisible'],
+    [{ visible: 'edit' }, 'SUBMIT', 'invisible']
+  ])(`%j on %s -> %j`, (initialState, event, expectedState) => {
+    expect(reservationMachine.transition(initialState, event).value).toEqual(
+      expectedState
+    )
   })
 })
 
