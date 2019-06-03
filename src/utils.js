@@ -27,28 +27,37 @@ export const DATE_MAP = {
   ]
 }
 
-export const useDateMap = actionCallback => {
-  const [dateMap, setDateMap] = useState(DATE_MAP)
+export const useDateMap = (MAP = DATE_MAP) => {
+  const [dateMap, setDateMap] = useState(MAP)
+  const [momentDate, setMomentDate] = useState(null)
+
+  const date = momentDate && momentDate.date()
+  const getData = date => dateMap[date] || []
 
   return {
-    createData: (date, data) => {
+    data: getData(date),
+    date,
+    formattedDate: momentDate && momentDate.format('DD MMM YYYY'),
+    getData,
+    setMomentDate,
+    onCancel: () => setMomentDate(null),
+    onCreate: (date, data) => {
       setDateMap({
         ...dateMap,
         [date]: [...(dateMap[date] || []), { status: 'warning', ...data }]
       })
       message.success('Successfully Created!')
-      actionCallback()
+      setMomentDate(null)
     },
-    deleteData: (date, index) => {
+    onDelete: (date, index) => {
       setDateMap({
         ...dateMap,
         [date]: [...dateMap[date].filter((_, i) => i !== index)]
       })
       message.success('Successfully Deleted!')
-      actionCallback()
+      setMomentDate(null)
     },
-    getData: date => dateMap[date] || [],
-    updateData: (date, index, data) => {
+    onUpdate: (date, index, data) => {
       setDateMap({
         ...dateMap,
         [date]: [
@@ -58,8 +67,9 @@ export const useDateMap = actionCallback => {
         ]
       })
       message.success('Successfully Updated!')
-      actionCallback()
-    }
+      setMomentDate(null)
+    },
+    renderDate: mDate => mDate && dataCellRender(getData(mDate.date()))
   }
 }
 
