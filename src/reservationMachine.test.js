@@ -3,21 +3,16 @@ import { reservationMachine } from './reservationMachine'
 
 describe('reservationMachine', () => {
   it('initial state', () => {
-    // Assert using .matches()
     expect(reservationMachine.initialState.matches('invisible')).toBe(true)
-    // Assert value directly
     expect(reservationMachine.initialState.value).toBe('invisible')
   })
 
-  it('invisible on CLICK_DATE -> visible', () => {
-    expect(reservationMachine.transition('invisible', 'CLICK_DATE').value).toBe(
-      'visible'
-    )
-  })
-
-  it('visible on CLOSE -> invisible', () => {
-    expect(reservationMachine.transition('visible', 'CLOSE').value).toBe(
-      'invisible'
+  it.each([
+    ['invisible', 'CLICK_DATE', 'visible'],
+    ['visible', 'CLOSE', 'invisible']
+  ])('%s on %s -> %s', (initialState, event, expectedState) => {
+    expect(reservationMachine.transition(initialState, event).value).toBe(
+      expectedState
     )
   })
 })
