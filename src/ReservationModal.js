@@ -9,6 +9,7 @@ import { ReservationList } from './ReservationList'
 export const ReservationModal = ({
   data,
   date,
+  formattedDate,
   onCreate,
   onDelete,
   onUpdate,
@@ -54,7 +55,7 @@ export const ReservationModal = ({
       title={
         <>
           {isDetailView && <LeftIcon onClick={handleBack} />}
-          {date && date.format('DD MMM YYYY')}
+          {formattedDate}
         </>
       }
       {...props}

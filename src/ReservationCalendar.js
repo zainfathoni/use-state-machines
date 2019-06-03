@@ -4,19 +4,22 @@ import { ReservationModal } from './ReservationModal'
 import { dataCellRender, useDateMap } from './utils'
 
 export const ReservationCalendar = () => {
-  const [date, setDate] = useState(null)
-  const clearDate = () => setDate(null)
+  const [momentDate, setMomentDate] = useState(null)
+  const clearDate = () => setMomentDate(null)
   const { createData, deleteData, getData, updateData } = useDateMap(clearDate)
+  const date = momentDate && momentDate.date()
+  const formattedDate = momentDate && momentDate.format('DD MMM YYYY')
 
   return (
     <main className="container">
       <Calendar
-        dateCellRender={date => date && dataCellRender(getData(date))}
-        onSelect={date => setDate(date)}
+        dateCellRender={mDate => mDate && dataCellRender(getData(mDate.date()))}
+        onSelect={mDate => setMomentDate(mDate)}
       />
       <ReservationModal
         data={getData(date)}
         date={date}
+        formattedDate={formattedDate}
         onCancel={clearDate}
         onCreate={createData}
         onDelete={deleteData}

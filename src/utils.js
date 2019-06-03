@@ -3,7 +3,7 @@ import { Badge, message } from 'antd'
 import React, { useState } from 'react'
 import './ReservationCalendar.css'
 
-const DATE_MAP = {
+export const DATE_MAP = {
   8: [
     { status: 'success', time: '09:00', volume: '<3' },
     { status: 'error', time: '12:00', volume: '<3' }
@@ -32,31 +32,28 @@ export const useDateMap = actionCallback => {
 
   return {
     createData: (date, data) => {
-      const dateKey = date.date()
-      console.log(dateMap[dateKey])
+      console.log(dateMap[date])
       setDateMap({
         ...dateMap,
-        [dateKey]: [...(dateMap[dateKey] || []), { status: 'warning', ...data }]
+        [date]: [...(dateMap[date] || []), { status: 'warning', ...data }]
       })
       message.success('Successfully Created!')
       actionCallback()
     },
     deleteData: (date, index) => {
-      const dateKey = date.date()
       setDateMap({
         ...dateMap,
-        [dateKey]: [...dateMap[dateKey].filter((_, i) => i !== index)]
+        [date]: [...dateMap[date].filter((_, i) => i !== index)]
       })
       message.success('Successfully Deleted!')
       actionCallback()
     },
-    getData: date => dateMap[date && date.date()] || [],
+    getData: date => dateMap[date] || [],
     updateData: (date, index, data) => {
-      const dateKey = date.date()
       setDateMap({
         ...dateMap,
-        [dateKey]: [
-          ...dateMap[dateKey].map((value, i) =>
+        [date]: [
+          ...dateMap[date].map((value, i) =>
             i !== index ? value : { ...value, ...data }
           )
         ]
