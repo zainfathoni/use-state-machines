@@ -28,6 +28,7 @@ export const ReservationCalendar = () => {
         data={data}
         date={date}
         formattedDate={formattedDate}
+        onBack={() => null}
         onCancel={onCancel}
         onCreate={onCreate}
         onDelete={onDelete}

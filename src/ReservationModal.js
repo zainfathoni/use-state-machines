@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { DeleteButton, EditButton } from './Button'
 import { LeftIcon } from './Icon'
 import { ReservationDetailEdit } from './ReservationDetailEdit'
@@ -10,43 +10,25 @@ export const ReservationModal = ({
   data,
   date,
   formattedDate,
+  index,
+  onBack,
   onCreate,
   onDelete,
   onUpdate,
+  send,
+  stateValue,
   ...props
 }) => {
-  const [index, setIndex] = useState(-1)
-  const [editing, setEditing] = useState(false)
-
-  // Render details directly if data.length === 1
-  useEffect(() => {
-    if (data.length === 1) {
-      setIndex(0)
-    }
-  }, [data.length, index, editing])
-
-  // FIXME: Avoid content flashing while closing the Modal
-  const visible = !!date
-  const isDetailView = visible && index >= 0
-  const isEmpty = visible && data.length === 0
   const handleDelete = () => onDelete(date, index)
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
-  const handleEdit = () => setEditing(true)
-  const handleBack = () => {
-    setEditing(false)
-    setIndex(-1)
-  }
+  const handleEdit = () => send('EDIT')
 
   return (
     <Modal
-      afterClose={() => {
-        setEditing(false)
-        setIndex(-1)
-      }}
       centered
       footer={
-        isDetailView && !editing && data[index].status === 'warning'
+        stateValue === 'view'
           ? [
               <DeleteButton key="delete" onClick={handleDelete} />,
               <EditButton key="edit" onClick={handleEdit} />
@@ -55,22 +37,27 @@ export const ReservationModal = ({
       }
       title={
         <>
-          {isDetailView && <LeftIcon onClick={handleBack} />}
+          {['view', 'edit'].includes(stateValue) && (
+            <LeftIcon onClick={onBack} />
+          )}
           {formattedDate}
         </>
       }
-      visible={visible}
+      visible={stateValue}
       {...props}
     >
-      {isDetailView && !editing ? (
+      {stateValue === 'view' ? (
         <ReservationDetailView item={data[index]} />
-      ) : isDetailView && editing ? (
+      ) : stateValue === 'edit' ? (
         <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
-      ) : isEmpty ? (
+      ) : stateValue === 'new' ? (
         <ReservationDetailEdit onSubmit={handleCreate} />
-      ) : (
-        <ReservationList data={data} onActionClick={index => setIndex(index)} />
-      )}
+      ) : stateValue === 'list' ? (
+        <ReservationList
+          data={data}
+          onActionClick={index => send('VIEW', index)}
+        />
+      ) : null}
     </Modal>
   )
 }
