@@ -23,6 +23,7 @@ export const ReservationModal = ({
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
   const handleEdit = () => send('EDIT')
+  console.log(stateValue)
 
   return (
     <Modal
@@ -43,10 +44,12 @@ export const ReservationModal = ({
           {formattedDate}
         </>
       }
-      visible={stateValue}
+      visible={!!stateValue}
       {...props}
     >
-      {stateValue === 'view' ? (
+      {stateValue === 'viewSingle' ? (
+        <ReservationDetailView item={data[0]} />
+      ) : stateValue === 'view' ? (
         <ReservationDetailView item={data[index]} />
       ) : stateValue === 'edit' ? (
         <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />

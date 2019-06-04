@@ -9,11 +9,13 @@ describe('reservationMachine', () => {
 
   it.each([
     ['invisible', 'CLICK_DATE', ['', ''], { visible: 'list' }],
-    ['invisible', 'CLICK_DATE', [''], { visible: 'view' }],
+    ['invisible', 'CLICK_DATE', [''], { visible: 'viewSingle' }],
     ['invisible', 'CLICK_DATE', [], { visible: 'new' }],
     ['invisible', 'CLICK_DATE', null, { visible: 'new' }],
     [{ visible: 'list' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'list' }, 'VIEW', null, { visible: 'view' }],
+    [{ visible: 'viewSingle' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'viewSingle' }, 'EDIT', null, { visible: 'edit' }],
     [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'view' }, 'EDIT', null, { visible: 'edit' }],
     [{ visible: 'edit' }, 'CLOSE', null, 'invisible'],
@@ -53,7 +55,7 @@ describe('Interpreted reservationMachine', () => {
     [['CLICK_DATE'], { visible: 'new' }],
     [['CLICK_DATE', 'CLOSE'], 'invisible'],
     [[{ type: 'CLICK_DATE', value: ['', ''] }], { visible: 'list' }],
-    [[{ type: 'CLICK_DATE', value: [''] }], { visible: 'view' }],
+    [[{ type: 'CLICK_DATE', value: [''] }], { visible: 'viewSingle' }],
     [[{ type: 'CLICK_DATE', value: [] }], { visible: 'new' }],
     [[{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW'], { visible: 'view' }],
     [

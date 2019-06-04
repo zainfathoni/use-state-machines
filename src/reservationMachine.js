@@ -9,7 +9,7 @@ export const reservationMachine = Machine(
         on: {
           CLICK_DATE: [
             { cond: 'empty', target: 'visible.new' },
-            { cond: 'single', target: 'visible.view' },
+            { cond: 'single', target: 'visible.viewSingle' },
             { target: 'visible' }
           ]
         }
@@ -19,6 +19,7 @@ export const reservationMachine = Machine(
         initial: 'list',
         states: {
           list: { on: { VIEW: 'view' } },
+          viewSingle: { on: { EDIT: 'edit' } },
           view: { on: { EDIT: 'edit' } },
           new: { on: { SUBMIT: '#invisible' } },
           edit: { on: { SUBMIT: '#invisible' } }

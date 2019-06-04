@@ -22,6 +22,7 @@ export const ReservationCalendar = () => {
 
   const [current, send] = useMachine(reservationMachine, { devTools: true })
   console.log(current.value)
+  console.log({ data, date })
 
   const handleClickDate = date => {
     setMomentDate(date)
@@ -49,7 +50,8 @@ export const ReservationCalendar = () => {
         onCreate={onCreate}
         onDelete={onDelete}
         onUpdate={onUpdate}
-        stateValue={!!current.value.visible}
+        send={send}
+        stateValue={current.value.visible}
       />
     </main>
   )
