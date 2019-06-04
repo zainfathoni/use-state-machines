@@ -11,6 +11,7 @@ describe('reservationMachine', () => {
     ['invisible', 'CLICK_DATE', ['', ''], { visible: 'list' }],
     ['invisible', 'CLICK_DATE', [''], { visible: 'view' }],
     ['invisible', 'CLICK_DATE', [], { visible: 'new' }],
+    ['invisible', 'CLICK_DATE', null, { visible: 'new' }],
     [{ visible: 'list' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'list' }, 'VIEW', null, { visible: 'view' }],
     [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
@@ -49,7 +50,7 @@ describe('Interpreted reservationMachine', () => {
   })
 
   it.each([
-    [['CLICK_DATE'], { visible: 'list' }],
+    [['CLICK_DATE'], { visible: 'new' }],
     [['CLICK_DATE', 'CLOSE'], 'invisible'],
     [[{ type: 'CLICK_DATE', value: ['', ''] }], { visible: 'list' }],
     [[{ type: 'CLICK_DATE', value: [''] }], { visible: 'view' }],
