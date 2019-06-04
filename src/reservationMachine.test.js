@@ -40,6 +40,10 @@ describe('Interpreted reservationMachine', () => {
       .start()
   })
 
+  afterEach(() => {
+    reservationService.stop()
+  })
+
   it('initial state', () => {
     expect(currentState.matches('invisible')).toBe(true)
   })
