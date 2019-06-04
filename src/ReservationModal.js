@@ -20,7 +20,6 @@ export const ReservationModal = ({
   stateValue,
   ...props
 }) => {
-  const handleDelete = () => onDelete(date, index)
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
   console.log(stateValue)
@@ -31,7 +30,7 @@ export const ReservationModal = ({
       footer={
         stateValue === 'view'
           ? [
-              <DeleteButton key="delete" onClick={handleDelete} />,
+              <DeleteButton key="delete" onClick={onDelete} />,
               <EditButton key="edit" onClick={onEdit} />
             ]
           : null

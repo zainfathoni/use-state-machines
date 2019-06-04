@@ -19,6 +19,7 @@ describe('reservationMachine', () => {
     [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'view' }, 'EDIT', null, { visible: 'edit' }],
     [{ visible: 'view' }, 'BACK', null, { visible: 'list' }],
+    [{ visible: 'view' }, 'DELETE', null, 'invisible'],
     [{ visible: 'edit' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'edit' }, 'SUBMIT', null, 'invisible'],
     [{ visible: 'new' }, 'CLOSE', null, 'invisible'],
@@ -67,6 +68,7 @@ describe('Interpreted reservationMachine', () => {
       [{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'BACK'],
       { visible: 'list' }
     ],
+    [[{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'DELETE'], 'invisible'],
     [
       [{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'EDIT', 'SUBMIT'],
       'invisible'

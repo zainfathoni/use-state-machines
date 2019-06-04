@@ -39,6 +39,11 @@ export const ReservationCalendar = () => {
     send('BACK')
   }
 
+  const handleDelete = () => {
+    send('DELETE')
+    onDelete(date, index)
+  }
+
   const handleView = index => {
     setIndex(index)
     send('VIEW')
@@ -64,7 +69,7 @@ export const ReservationCalendar = () => {
         onBack={handleBack}
         onCancel={handleCancel}
         onCreate={onCreate}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         onUpdate={onUpdate}
         onEdit={handleEdit}
         onView={handleView}
