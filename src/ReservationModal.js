@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { DeleteButton, EditButton } from './Button'
 import { LeftIcon } from './Icon'
 import { ReservationDetailEdit } from './ReservationDetailEdit'
@@ -10,67 +10,51 @@ export const ReservationModal = ({
   data,
   date,
   formattedDate,
+  index,
+  onBack,
   onCreate,
   onDelete,
   onUpdate,
+  onEdit,
+  onView,
+  stateValue,
   ...props
 }) => {
-  const [index, setIndex] = useState(-1)
-  const [editing, setEditing] = useState(false)
-
-  // Render details directly if data.length === 1
-  useEffect(() => {
-    if (data.length === 1) {
-      setIndex(0)
-    }
-  }, [data.length, index, editing])
-
-  // FIXME: Avoid content flashing while closing the Modal
-  const visible = !!date
-  const isDetailView = visible && index >= 0
-  const isEmpty = visible && data.length === 0
-  const handleDelete = () => onDelete(date, index)
-  const handleCreate = data => onCreate(date, data)
-  const handleUpdate = data => onUpdate(date, index, data)
-  const handleEdit = () => setEditing(true)
-  const handleBack = () => {
-    setEditing(false)
-    setIndex(-1)
-  }
+  console.log(stateValue)
 
   return (
     <Modal
-      afterClose={() => {
-        setEditing(false)
-        setIndex(-1)
-      }}
       centered
       footer={
-        isDetailView && !editing && data[index].status === 'warning'
+        stateValue === 'view'
           ? [
-              <DeleteButton key="delete" onClick={handleDelete} />,
-              <EditButton key="edit" onClick={handleEdit} />
+              <DeleteButton key="delete" onClick={onDelete} />,
+              <EditButton key="edit" onClick={onEdit} />
             ]
           : null
       }
       title={
         <>
-          {isDetailView && <LeftIcon onClick={handleBack} />}
+          {['view', 'edit'].includes(stateValue) && (
+            <LeftIcon onClick={onBack} />
+          )}
           {formattedDate}
         </>
       }
-      visible={visible}
+      visible={!!stateValue}
       {...props}
     >
-      {isDetailView && !editing ? (
+      {stateValue === 'viewSingle' ? (
+        <ReservationDetailView item={data[0]} />
+      ) : stateValue === 'view' ? (
         <ReservationDetailView item={data[index]} />
-      ) : isDetailView && editing ? (
-        <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
-      ) : isEmpty ? (
-        <ReservationDetailEdit onSubmit={handleCreate} />
-      ) : (
-        <ReservationList data={data} onActionClick={index => setIndex(index)} />
-      )}
+      ) : stateValue === 'edit' ? (
+        <ReservationDetailEdit item={data[index]} onSubmit={onUpdate} />
+      ) : stateValue === 'new' ? (
+        <ReservationDetailEdit onSubmit={onCreate} />
+      ) : stateValue === 'list' ? (
+        <ReservationList data={data} onActionClick={onView} />
+      ) : null}
     </Modal>
   )
 }

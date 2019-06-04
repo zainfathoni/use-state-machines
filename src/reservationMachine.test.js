@@ -8,17 +8,26 @@ describe('reservationMachine', () => {
   })
 
   it.each([
-    ['invisible', 'CLICK_DATE', { visible: 'list' }],
-    [{ visible: 'list' }, 'CLOSE', 'invisible'],
-    [{ visible: 'list' }, 'VIEW', { visible: 'view' }],
-    [{ visible: 'view' }, 'CLOSE', 'invisible'],
-    [{ visible: 'view' }, 'EDIT', { visible: 'edit' }],
-    [{ visible: 'edit' }, 'CLOSE', 'invisible'],
-    [{ visible: 'edit' }, 'SUBMIT', 'invisible']
-  ])(`%j on %s -> %j`, (initialState, event, expectedState) => {
-    expect(reservationMachine.transition(initialState, event).value).toEqual(
-      expectedState
-    )
+    ['invisible', 'CLICK_DATE', ['', ''], { visible: 'list' }],
+    ['invisible', 'CLICK_DATE', [''], { visible: 'viewSingle' }],
+    ['invisible', 'CLICK_DATE', [], { visible: 'new' }],
+    ['invisible', 'CLICK_DATE', null, { visible: 'new' }],
+    [{ visible: 'list' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'list' }, 'VIEW', null, { visible: 'view' }],
+    [{ visible: 'viewSingle' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'viewSingle' }, 'EDIT', null, { visible: 'edit' }],
+    [{ visible: 'view' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'view' }, 'EDIT', null, { visible: 'edit' }],
+    [{ visible: 'view' }, 'BACK', null, { visible: 'list' }],
+    [{ visible: 'view' }, 'DELETE', null, 'invisible'],
+    [{ visible: 'edit' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'edit' }, 'SUBMIT', null, 'invisible'],
+    [{ visible: 'new' }, 'CLOSE', null, 'invisible'],
+    [{ visible: 'new' }, 'SUBMIT', null, 'invisible']
+  ])(`%j on %s (%j) -> %j`, (initialState, type, value, expectedState) => {
+    expect(
+      reservationMachine.transition(initialState, { type, value }).value
+    ).toEqual(expectedState)
   })
 })
 
@@ -36,18 +45,36 @@ describe('Interpreted reservationMachine', () => {
       .start()
   })
 
+  afterEach(() => {
+    reservationService.stop()
+  })
+
   it('initial state', () => {
-    expect(currentState.matches('invisible')).toBe(true)
+    expect(currentState.value).toEqual('invisible')
   })
 
-  it('CLICK_DATE', () => {
-    reservationService.send('CLICK_DATE')
-    expect(currentState.matches('visible')).toBe(true)
-  })
-
-  it('CLOSE', () => {
-    reservationService.send('CLICK_DATE')
-    reservationService.send('CLOSE')
-    expect(currentState.matches('invisible')).toBe(true)
+  it.each([
+    [['CLICK_DATE'], { visible: 'new' }],
+    [['CLICK_DATE', 'CLOSE'], 'invisible'],
+    [[{ type: 'CLICK_DATE', value: ['', ''] }], { visible: 'list' }],
+    [[{ type: 'CLICK_DATE', value: [''] }], { visible: 'viewSingle' }],
+    [[{ type: 'CLICK_DATE', value: [] }], { visible: 'new' }],
+    [[{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW'], { visible: 'view' }],
+    [
+      [{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'EDIT'],
+      { visible: 'edit' }
+    ],
+    [
+      [{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'BACK'],
+      { visible: 'list' }
+    ],
+    [[{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'DELETE'], 'invisible'],
+    [
+      [{ type: 'CLICK_DATE', value: ['', ''] }, 'VIEW', 'EDIT', 'SUBMIT'],
+      'invisible'
+    ]
+  ])(`send %j -> %j`, (events, expectedState) => {
+    events.forEach(event => reservationService.send(event))
+    expect(currentState.value).toEqual(expectedState)
   })
 })
