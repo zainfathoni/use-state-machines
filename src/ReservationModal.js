@@ -44,7 +44,7 @@ export const ReservationModal = ({
       visible={!!stateValue}
       {...props}
     >
-      {stateValue === 'viewSingle' ? (
+      {stateValue === 'viewSingl' ? (
         <ReservationDetailView item={data[0]} />
       ) : stateValue === 'view' ? (
         <ReservationDetailView item={data[index]} />
