@@ -15,14 +15,14 @@ export const ReservationModal = ({
   onCreate,
   onDelete,
   onUpdate,
-  send,
+  onEdit,
+  onView,
   stateValue,
   ...props
 }) => {
   const handleDelete = () => onDelete(date, index)
   const handleCreate = data => onCreate(date, data)
   const handleUpdate = data => onUpdate(date, index, data)
-  const handleEdit = () => send('EDIT')
   console.log(stateValue)
 
   return (
@@ -32,7 +32,7 @@ export const ReservationModal = ({
         stateValue === 'view'
           ? [
               <DeleteButton key="delete" onClick={handleDelete} />,
-              <EditButton key="edit" onClick={handleEdit} />
+              <EditButton key="edit" onClick={onEdit} />
             ]
           : null
       }
@@ -56,10 +56,7 @@ export const ReservationModal = ({
       ) : stateValue === 'new' ? (
         <ReservationDetailEdit onSubmit={handleCreate} />
       ) : stateValue === 'list' ? (
-        <ReservationList
-          data={data}
-          onActionClick={index => send('VIEW', index)}
-        />
+        <ReservationList data={data} onActionClick={onView} />
       ) : null}
     </Modal>
   )

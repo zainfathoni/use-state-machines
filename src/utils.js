@@ -35,6 +35,7 @@ export const DATE_MAP = {
 export const useDateMap = (MAP = DATE_MAP) => {
   const [dateMap, setDateMap] = useState(MAP)
   const [momentDate, setMomentDate] = useState(null)
+  const [index, setIndex] = useState(-1)
 
   const date = momentDate && momentDate.date()
   const getData = date => dateMap[date] || []
@@ -48,6 +49,8 @@ export const useDateMap = (MAP = DATE_MAP) => {
     formattedDate: momentDate && momentDate.format('DD MMM YYYY'),
     getData,
     setMomentDate,
+    index,
+    setIndex,
     onCancel: () => setMomentDate(null),
     onCreate: (date, data) => {
       setDateMap({

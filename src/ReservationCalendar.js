@@ -12,10 +12,12 @@ export const ReservationCalendar = () => {
     disabledDate,
     formattedDate,
     getData,
+    index,
     onCancel,
     onCreate,
     onDelete,
     onUpdate,
+    setIndex,
     renderDate,
     setMomentDate
   } = useDateMap()
@@ -27,6 +29,15 @@ export const ReservationCalendar = () => {
   const handleClickDate = date => {
     setMomentDate(date)
     send({ type: 'CLICK_DATE', value: getData(date.date()) })
+  }
+
+  const handleEdit = () => {
+    send('EDIT')
+  }
+
+  const handleView = index => {
+    setIndex(index)
+    send('VIEW')
   }
 
   const handleCancel = () => {
@@ -45,11 +56,14 @@ export const ReservationCalendar = () => {
         data={data}
         date={date}
         formattedDate={formattedDate}
+        index={index}
         onBack={() => null}
         onCancel={handleCancel}
         onCreate={onCreate}
         onDelete={onDelete}
         onUpdate={onUpdate}
+        onEdit={handleEdit}
+        onView={handleView}
         send={send}
         stateValue={current.value.visible}
       />
