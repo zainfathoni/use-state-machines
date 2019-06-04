@@ -20,8 +20,6 @@ export const ReservationModal = ({
   stateValue,
   ...props
 }) => {
-  const handleCreate = data => onCreate(date, data)
-  const handleUpdate = data => onUpdate(date, index, data)
   console.log(stateValue)
 
   return (
@@ -51,9 +49,9 @@ export const ReservationModal = ({
       ) : stateValue === 'view' ? (
         <ReservationDetailView item={data[index]} />
       ) : stateValue === 'edit' ? (
-        <ReservationDetailEdit item={data[index]} onSubmit={handleUpdate} />
+        <ReservationDetailEdit item={data[index]} onSubmit={onUpdate} />
       ) : stateValue === 'new' ? (
-        <ReservationDetailEdit onSubmit={handleCreate} />
+        <ReservationDetailEdit onSubmit={onCreate} />
       ) : stateValue === 'list' ? (
         <ReservationList data={data} onActionClick={onView} />
       ) : null}
