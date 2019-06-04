@@ -20,7 +20,7 @@ export const reservationMachine = Machine(
         states: {
           list: { on: { VIEW: 'view' } },
           viewSingle: { on: { EDIT: 'edit' } },
-          view: { on: { EDIT: 'edit' } },
+          view: { on: { EDIT: 'edit', BACK: 'list' } },
           new: { on: { SUBMIT: '#invisible' } },
           edit: { on: { SUBMIT: '#invisible' } }
         }
