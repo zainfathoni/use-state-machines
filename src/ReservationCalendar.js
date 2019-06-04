@@ -1,8 +1,9 @@
 import { Calendar } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 import { ReservationModal } from './ReservationModal'
 import { reservationMachine } from './reservationMachine'
 import { useDateMap } from './utils'
+import { useMachine } from './useMachine'
 
 export const ReservationCalendar = () => {
   const {
@@ -19,18 +20,16 @@ export const ReservationCalendar = () => {
     setMomentDate
   } = useDateMap()
 
-  const [state, setState] = useState(reservationMachine.initialState)
-  console.log(state.value)
+  const [current, send] = useMachine(reservationMachine)
+  console.log(current.value)
 
   const handleClickDate = date => {
     setMomentDate(date)
-    setState(
-      reservationMachine.transition(state, 'CLICK_DATE', getData(date.date()))
-    )
+    send({ type: 'CLICK_DATE', value: getData(date.date()) })
   }
 
   const handleCancel = () => {
-    setState(reservationMachine.transition(state, 'CLOSE'))
+    send('CLOSE')
     onCancel()
   }
 
@@ -50,7 +49,7 @@ export const ReservationCalendar = () => {
         onCreate={onCreate}
         onDelete={onDelete}
         onUpdate={onUpdate}
-        stateValue={!!state.value.visible}
+        stateValue={!!current.value.visible}
       />
     </main>
   )

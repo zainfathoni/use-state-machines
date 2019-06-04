@@ -28,8 +28,8 @@ export const reservationMachine = Machine(
   },
   {
     guards: {
-      empty: data => data && data.length === 0,
-      single: data => data && data.length === 1
+      empty: (context, event) => event.value && event.value.length === 0,
+      single: (context, event) => event.value && event.value.length === 1
     }
   }
 )

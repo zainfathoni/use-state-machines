@@ -19,9 +19,9 @@ describe('reservationMachine', () => {
     [{ visible: 'edit' }, 'SUBMIT', null, 'invisible'],
     [{ visible: 'new' }, 'CLOSE', null, 'invisible'],
     [{ visible: 'new' }, 'SUBMIT', null, 'invisible']
-  ])(`%j on %s (%j) -> %j`, (initialState, event, eventArgs, expectedState) => {
+  ])(`%j on %s (%j) -> %j`, (initialState, type, value, expectedState) => {
     expect(
-      reservationMachine.transition(initialState, event, eventArgs).value
+      reservationMachine.transition(initialState, { type, value }).value
     ).toEqual(expectedState)
   })
 })
