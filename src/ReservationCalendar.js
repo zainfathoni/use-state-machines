@@ -20,7 +20,7 @@ export const ReservationCalendar = () => {
     setMomentDate
   } = useDateMap()
 
-  const [current, send] = useMachine(reservationMachine)
+  const [current, send] = useMachine(reservationMachine, { devTools: true })
   console.log(current.value)
 
   const handleClickDate = date => {
