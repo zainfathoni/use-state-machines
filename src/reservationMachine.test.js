@@ -45,17 +45,14 @@ describe('Interpreted reservationMachine', () => {
   })
 
   it('initial state', () => {
-    expect(currentState.matches('invisible')).toBe(true)
+    expect(currentState.value).toEqual('invisible')
   })
 
-  it('CLICK_DATE', () => {
-    reservationService.send('CLICK_DATE')
-    expect(currentState.matches('visible')).toBe(true)
-  })
-
-  it('CLOSE', () => {
-    reservationService.send('CLICK_DATE')
-    reservationService.send('CLOSE')
-    expect(currentState.matches('invisible')).toBe(true)
+  it.each([
+    [['CLICK_DATE'], { visible: 'list' }],
+    [['CLICK_DATE', 'CLOSE'], 'invisible']
+  ])(`send %j -> %j`, (events, expectedState) => {
+    events.forEach(event => reservationService.send(event))
+    expect(currentState.value).toEqual(expectedState)
   })
 })
