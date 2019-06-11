@@ -3,7 +3,32 @@ import React from 'react'
 
 export const Button = props => <AntButton size="large" {...props} />
 
-export const PrimaryButton = props => <AntButton type="primary" {...props} />
+const PrimaryButton = props => <AntButton type="primary" {...props} />
+
+const ListView = ({ onView }) => (
+  <List>
+    <List.Item>
+      <AntButton onClick={onView}>Item 1</AntButton>
+    </List.Item>
+    <List.Item>
+      <AntButton onClick={onView}>Item 2</AntButton>
+    </List.Item>
+    <List.Item>
+      <AntButton onClick={onView}>Item 3</AntButton>
+    </List.Item>
+  </List>
+)
+
+const DetailView = ({ onBack, onEdit }) => (
+  <>
+    <AntButton onClick={onBack}>Back</AntButton>&nbsp;
+    <PrimaryButton onClick={onEdit}>Edit</PrimaryButton>
+  </>
+)
+
+const DetailEdit = ({ onSubmit }) => (
+  <PrimaryButton onClick={onSubmit}>Submit</PrimaryButton>
+)
 
 export const Modal = ({
   onBack,
@@ -21,26 +46,13 @@ export const Modal = ({
     {...props}
   >
     {stateValue === 'list' ? (
-      <List>
-        <List.Item>
-          <AntButton onClick={onView}>Item 1</AntButton>
-        </List.Item>
-        <List.Item>
-          <AntButton onClick={onView}>Item 2</AntButton>
-        </List.Item>
-        <List.Item>
-          <AntButton onClick={onView}>Item 3</AntButton>
-        </List.Item>
-      </List>
+      <ListView onView={onView} />
     ) : stateValue === 'view' ? (
-      <>
-        <AntButton onClick={onBack}>Back</AntButton>&nbsp;
-        <PrimaryButton onClick={onEdit}>Edit</PrimaryButton>
-      </>
+      <DetailView onBack={onBack} onEdit={onEdit} />
     ) : stateValue === 'edit' ? (
-      <PrimaryButton onClick={onSubmit}>Submit</PrimaryButton>
+      <DetailEdit onSubmit={onSubmit} />
     ) : stateValue === 'create' ? (
-      <PrimaryButton onClick={onSubmit}>Submit</PrimaryButton>
+      <DetailEdit onSubmit={onSubmit} />
     ) : null}
   </AntModal>
 )
