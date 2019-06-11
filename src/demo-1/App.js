@@ -1,7 +1,5 @@
-import { Button } from 'antd'
 import React, { useState } from 'react'
-import './App.css'
-import { Modal } from './Modal'
+import { Button, Modal } from './Components'
 
 export const App = () => {
   const [visible, setVisible] = useState(false)
