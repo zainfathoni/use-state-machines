@@ -8,11 +8,18 @@ export const App = () => {
 
   const handleOpen = () => send('OPEN')
   const handleClose = () => send('CLOSE')
+  const handleEdit = () => send('EDIT')
+  const handleSubmit = () => send('SUBMIT')
 
   return (
     <main class="app">
       <Button onClick={handleOpen}>Open Modal</Button>
-      <Modal onCancel={handleClose} stateValue={current.value === 'visible'} />
+      <Modal
+        onCancel={handleClose}
+        onEdit={handleEdit}
+        onSubmit={handleSubmit}
+        stateValue={current.value.visible}
+      />
     </main>
   )
 }

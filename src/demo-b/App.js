@@ -10,7 +10,7 @@ export const App = () => {
   return (
     <main class="app">
       <Button onClick={handleOpen}>Open Modal</Button>
-      <Modal onCancel={handleClose} stateValue={visible} />
+      <Modal onCancel={handleClose} visible={visible} />
     </main>
   )
 }

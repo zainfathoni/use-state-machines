@@ -21,7 +21,7 @@ const ListView = ({ onView }) => (
 
 const DetailView = ({ onBack, onEdit }) => (
   <>
-    <AntButton onClick={onBack}>Back</AntButton>&nbsp;
+    {onBack && <AntButton onClick={onBack}>Back</AntButton>}&nbsp;
     <PrimaryButton onClick={onEdit}>Edit</PrimaryButton>
   </>
 )
@@ -41,7 +41,7 @@ export const Modal = ({
   <AntModal
     centered
     footer={null}
-    title={stateValue}
+    title={stateValue === true ? 'Modal' : stateValue}
     visible={!!stateValue}
     {...props}
   >
