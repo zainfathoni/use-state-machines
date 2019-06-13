@@ -16,7 +16,7 @@ export const App = () => {
   const handleSubmit = () => send('SUBMIT')
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={handleOpenMultiple}>Multiple Items</Button>&nbsp;
       <Button onClick={handleOpenSingle}>Single Item</Button>&nbsp;
       <Button onClick={handleOpenEmpty}>No Item</Button>&nbsp;

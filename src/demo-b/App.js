@@ -13,7 +13,7 @@ export const App = () => {
   }
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={() => setVisible(true)}>Open Modal</Button>
       <Modal
         onClose={() => setVisible(false)}

@@ -32,7 +32,7 @@ export const App = () => {
   const handleClose = () => service.send('CLOSE')
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={handleOpen}>Open Modal</Button>
       <Modal onCancel={handleClose} visible={current.matches('visible')} />
     </main>

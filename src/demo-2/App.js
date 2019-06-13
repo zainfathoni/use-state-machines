@@ -9,7 +9,7 @@ export const App = () => {
   const handleClose = () => setState(modalMachine.transition(state, 'CLOSE'))
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={handleOpen}>Open Modal</Button>
       <Modal onCancel={handleClose} visible={state.matches('visible')} />
     </main>

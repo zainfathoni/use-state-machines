@@ -14,7 +14,7 @@ export const App = () => {
   const handleSubmit = () => send('SUBMIT')
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={handleOpen}>Open Modal</Button>
       <Modal
         onCancel={handleClose}

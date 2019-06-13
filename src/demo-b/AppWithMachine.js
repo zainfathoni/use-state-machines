@@ -7,7 +7,7 @@ export const App = () => {
   const [current, send] = useMachine(modalMachine, { devTools: true })
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={() => send('OPEN')}>Open Modal</Button>
       <Modal
         onClose={() => send('CLOSE')}

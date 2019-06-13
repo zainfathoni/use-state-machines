@@ -8,7 +8,7 @@ export const App = () => {
   const handleClose = () => setVisible(false)
 
   return (
-    <main class="app">
+    <main className="app">
       <Button onClick={handleOpen}>Open Modal</Button>
       <Modal onCancel={handleClose} visible={visible} />
     </main>
