@@ -5,9 +5,12 @@ export const App = () => {
   const [visible, setVisible] = useState(false)
   const [editing, setEditing] = useState(false)
   const [data, setData] = useState([])
+  const [index, setIndex] = useState(-1)
 
   let stateValue
-  if (visible && !editing && data && data.length > 0) {
+  if (visible && !editing && data && data.length > 1 && index < 0) {
+    stateValue = 'list'
+  } else if (visible && !editing && data && data.length > 0 && index >= 0) {
     stateValue = 'view'
   } else if (visible && editing) {
     stateValue = 'edit'
@@ -17,6 +20,15 @@ export const App = () => {
 
   return (
     <main className="app">
+      <Button
+        onClick={() => {
+          setVisible(true)
+          setData(['', ''])
+        }}
+      >
+        Open Multiple
+      </Button>
+      &nbsp;
       <Button
         onClick={() => {
           setVisible(true)
@@ -39,6 +51,8 @@ export const App = () => {
           setEditing(false)
           setData([])
         }}
+        onBack={() => setIndex(-1)}
+        onView={() => setIndex(0)}
         stateValue={stateValue}
       />
     </main>

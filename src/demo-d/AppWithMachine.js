@@ -20,10 +20,10 @@ export const App = () => {
         Open Empty
       </Button>
       <Modal
-        onBack={() => send('BACK')}
         onClose={() => send('CLOSE')}
         onEdit={() => send('EDIT')}
         onSubmit={() => send('SUBMIT')}
+        onBack={() => send('BACK')}
         onView={() => send('VIEW')}
         stateValue={current.value.visible}
       />
