@@ -13,7 +13,7 @@ export const App = () => {
       </Button>
       &nbsp;
       <Button onClick={() => send({ type: 'OPEN', data: [''] })}>
-        Open Exists
+        Open Single
       </Button>
       &nbsp;
       <Button onClick={() => send({ type: 'OPEN', data: [] })}>

@@ -10,7 +10,12 @@ export const App = () => {
   let stateValue
   if (visible && !editing && data && data.length > 1 && index < 0) {
     stateValue = 'list'
-  } else if (visible && !editing && data && data.length > 0 && index >= 0) {
+  } else if (
+    visible &&
+    !editing &&
+    data &&
+    ((data.length > 0 && index >= 0) || data.length === 1)
+  ) {
     stateValue = 'view'
   } else if (visible && editing) {
     stateValue = 'edit'
@@ -50,6 +55,7 @@ export const App = () => {
           setVisible(false)
           setEditing(false)
           setData([])
+          setIndex(-1)
         }}
         onBack={() => setIndex(-1)}
         onView={() => setIndex(0)}
