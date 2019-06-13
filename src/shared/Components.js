@@ -21,7 +21,7 @@ const ListView = ({ onView }) => (
 
 const DetailView = ({ onBack, onEdit }) => (
   <>
-    {onBack && <AntButton onClick={onBack}>Back</AntButton>}&nbsp;
+    <AntButton onClick={onBack}>Back</AntButton>&nbsp;
     <PrimaryButton onClick={onEdit}>Edit</PrimaryButton>
   </>
 )
