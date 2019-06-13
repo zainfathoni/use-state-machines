@@ -5,14 +5,6 @@ export const App = () => {
   const [visible, setVisible] = useState(false)
   const [editing, setEditing] = useState(false)
 
-  const handleOpen = () => setVisible(true)
-  const handleClose = () => setVisible(false)
-  const handleEdit = () => setEditing(true)
-  const handleSubmit = () => {
-    setEditing(false)
-    setVisible(false)
-  }
-
   let stateValue
   if (visible && !editing) {
     stateValue = 'view'
@@ -22,11 +14,14 @@ export const App = () => {
 
   return (
     <main class="app">
-      <Button onClick={handleOpen}>Open Modal</Button>
+      <Button onClick={() => setVisible(true)}>Open Modal</Button>
       <Modal
-        onClose={handleClose}
-        onEdit={handleEdit}
-        onSubmit={handleSubmit}
+        onClose={() => setVisible(false)}
+        onEdit={() => setEditing(true)}
+        onSubmit={() => {
+          setEditing(false)
+          setVisible(false)
+        }}
         stateValue={stateValue}
       />
     </main>

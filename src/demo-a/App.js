@@ -4,13 +4,10 @@ import { Button, Modal } from '../shared/Components'
 export const App = () => {
   const [visible, setVisible] = useState(false)
 
-  const handleOpen = () => setVisible(true)
-  const handleClose = () => setVisible(false)
-
   return (
     <main class="app">
-      <Button onClick={handleOpen}>Open Modal</Button>
-      <Modal onClose={handleClose} stateValue={visible} />
+      <Button onClick={() => setVisible(true)}>Open Modal</Button>
+      <Modal onClose={() => setVisible(false)} stateValue={visible} />
     </main>
   )
 }

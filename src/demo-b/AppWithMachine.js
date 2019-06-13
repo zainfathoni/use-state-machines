@@ -6,18 +6,13 @@ import { modalMachine } from './machine'
 export const App = () => {
   const [current, send] = useMachine(modalMachine, { devTools: true })
 
-  const handleOpen = () => send('OPEN')
-  const handleClose = () => send('CLOSE')
-  const handleEdit = () => send('EDIT')
-  const handleSubmit = () => send('SUBMIT')
-
   return (
     <main class="app">
-      <Button onClick={handleOpen}>Open Modal</Button>
+      <Button onClick={() => send('OPEN')}>Open Modal</Button>
       <Modal
-        onClose={handleClose}
-        onEdit={handleEdit}
-        onSubmit={handleSubmit}
+        onClose={() => send('CLOSE')}
+        onEdit={() => send('EDIT')}
+        onSubmit={() => send('SUBMIT')}
         stateValue={current.value.visible}
       />
     </main>

@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
 import './index.css'
 import './App.css'
-import { App } from './demo-b/App'
+import { App } from './demo-b/AppWithMachine'
 
 ReactDOM.render(<App />, document.getElementById('root'))
