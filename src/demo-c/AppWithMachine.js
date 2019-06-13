@@ -12,7 +12,9 @@ export const App = () => {
         Open Exists
       </Button>
       &nbsp;
-      <Button onClick={() => send('OPEN')}>Open Empty</Button>
+      <Button onClick={() => send({ type: 'OPEN', data: [] })}>
+        Open Empty
+      </Button>
       <Modal
         onClose={() => send('CLOSE')}
         onEdit={() => send('EDIT')}

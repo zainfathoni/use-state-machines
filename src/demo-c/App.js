@@ -4,23 +4,40 @@ import { Button, Modal } from '../shared/Components'
 export const App = () => {
   const [visible, setVisible] = useState(false)
   const [editing, setEditing] = useState(false)
+  const [data, setData] = useState([])
 
   let stateValue
-  if (visible && !editing) {
+  if (visible && !editing && data && data.length > 0) {
     stateValue = 'view'
   } else if (visible && editing) {
     stateValue = 'edit'
+  } else if (visible && (!data || data.length === 0)) {
+    stateValue = 'create'
   }
 
   return (
     <main className="app">
-      <Button onClick={() => setVisible(true)}>Open Modal</Button>
+      <Button
+        onClick={() => {
+          setVisible(true)
+          setData([''])
+        }}
+      >
+        Open Exists
+      </Button>
+      &nbsp;
+      <Button onClick={() => setVisible(true)}>Open Empty</Button>
       <Modal
-        onClose={() => setVisible(false)}
+        onClose={() => {
+          setVisible(false)
+          setEditing(false)
+          setData([])
+        }}
         onEdit={() => setEditing(true)}
         onSubmit={() => {
-          setEditing(false)
           setVisible(false)
+          setEditing(false)
+          setData([])
         }}
         stateValue={stateValue}
       />

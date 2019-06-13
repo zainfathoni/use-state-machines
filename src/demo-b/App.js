@@ -16,11 +16,14 @@ export const App = () => {
     <main className="app">
       <Button onClick={() => setVisible(true)}>Open Modal</Button>
       <Modal
-        onClose={() => setVisible(false)}
+        onClose={() => {
+          setVisible(false)
+          setEditing(false)
+        }}
         onEdit={() => setEditing(true)}
         onSubmit={() => {
-          setEditing(false)
           setVisible(false)
+          setEditing(false)
         }}
         stateValue={stateValue}
       />
