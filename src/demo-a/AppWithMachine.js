@@ -12,7 +12,7 @@ export const App = () => {
   return (
     <main class="app">
       <Button onClick={handleOpen}>Open Modal</Button>
-      <Modal onCancel={handleClose} stateValue={current.value === 'visible'} />
+      <Modal onClose={handleClose} stateValue={current.value === 'visible'} />
     </main>
   )
 }

@@ -32,18 +32,18 @@ const DetailEdit = ({ onSubmit }) => (
 
 export const Modal = ({
   onBack,
+  onClose,
   onEdit,
-  onView,
   onSubmit,
-  stateValue,
-  ...props
+  onView,
+  stateValue
 }) => (
   <AntModal
     centered
     footer={null}
+    onCancel={onClose}
     title={stateValue === true ? 'Modal' : stateValue}
     visible={!!stateValue}
-    {...props}
   >
     {stateValue === 'list' ? (
       <ListView onView={onView} />

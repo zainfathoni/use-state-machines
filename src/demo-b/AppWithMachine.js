@@ -15,7 +15,7 @@ export const App = () => {
     <main class="app">
       <Button onClick={handleOpen}>Open Modal</Button>
       <Modal
-        onCancel={handleClose}
+        onClose={handleClose}
         onEdit={handleEdit}
         onSubmit={handleSubmit}
         stateValue={current.value.visible}
